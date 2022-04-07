@@ -10,7 +10,7 @@ export const router = new VueRouter({
                 import ('@/pages/Home.vue')
         },
         {
-            path: '/chi-tiet-san-pham',
+            path: '/chi-tiet-san-pham/:id/:name/:price/:image',
             name: 'detail-product',
             component: () =>
                 import ('@/pages/ProductDetail.vue')

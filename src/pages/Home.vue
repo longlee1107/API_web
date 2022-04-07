@@ -51,11 +51,11 @@
                     </div>
                 </div>
                 <div class="flex justify-between">
-                        <div class="number">
-                            <button>+</button>
-                            <input class=" w-8 mr-2 text-center" type="text" :disabled="false" value="1">
-                            <button>-</button>
-                        </div>
+                    <div class="number">
+                        <button>+</button>
+                        <input class=" w-8 mr-2 text-center" type="text" :disabled="false" value="1">
+                        <button>-</button>
+                    </div>
                     <div class="addToCart text-right">
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="addToCart(item.id)">
                             Add to cart
@@ -74,20 +74,20 @@
                 </div>
                 <div class="productInfo">
                     <div class="productName flex justify-between font-bold text-left">
-                        <router-link :to="{name:'detail-product',params:{id:item.id,name:item.name}}">
+                        <router-link @click="_goToDetail()" :to="{name:'detail-product',params:{id:item.id,name:item.name,price:item.price,image:item.image.full_image_path}}">
                             <h3>{{item.name}}</h3>
                         </router-link>
                     </div>
-                    <div class="productPrice text-left font-bold text-red-500">
-                        <h3>{{item.price}}</h3>
-                    </div>
                 </div>
-               <div class="flex justify-between">
-                        <div class="number">
-                            <button>+</button>
-                            <input class=" w-8 mr-2 text-center" type="text" :disabled="false">
-                            <button>-</button>
-                        </div>
+                <div class="productPrice text-left font-bold text-red-500">
+                    <h3>{{item.price}}</h3>
+                </div>
+                <div class="flex justify-between">
+                    <div class="number">
+                        <button>+</button>
+                        <input class=" w-8 mr-2 text-center" type="text" :disabled="false">
+                        <button>-</button>
+                    </div>
                     <div class="addToCart text-right">
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="addToCart(item.id)">
                             Add to cart
@@ -168,14 +168,20 @@ export default {
                     console.log(error);
                 });
         },
+        _goToDetail() {
+            this.$router.go({
+                name: 'detail-product'
+            });
+
+        }
     },
     mounted() {
         this.ApiHome();
     },
-    components: { 
-    MenuBar,
-    
-}
+    components: {
+        MenuBar,
+
+    }
 }
 </script>
 

@@ -3,14 +3,14 @@
     <MenuBar></MenuBar>
     <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="img">
-            <img :src="item.image.full_image_path" alt="">
+            <img :src="imagePath" alt="">
         </div>
         <div class="product-info">
             <div class="product-name">
-                {{item.name}}
+                {{slug}}
             </div>
-            <div class="proct-price">
-                {{item.price}}
+            <div class="product-price">
+                {{price}}
             </div>
             <div class="product-number">
                 <button>+</button>
@@ -31,24 +31,25 @@
 import MenuBar from "@/components/MenuBar.vue";
 export default {
     name: "ProductDetail",
-    props: {
-        item: {
-            type: Object,
-            default: null
+    data() {
+        return {
+            slug:'',
+            imagePath:'',
+            price:0,
+
         }
-    },
-    methods: {
-        close() {
-            this.$emit("close");
-        },
-    },
+    }, 
     mounted: function () {
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 this.close();
             }
         });
+    this.slug= this.$route.params.name;
+    this.price = this.$route.params.price;
+    this.imagePath = this.$route.params.image;
     },
+    
     components: {
         MenuBar
     }
