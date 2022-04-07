@@ -3,14 +3,12 @@
     <MenuBar></MenuBar>
     <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div class="img">
-            <img :src="imagePath" alt="">
         </div>
         <div class="product-info">
             <div class="product-name">
                 {{slug}}
             </div>
             <div class="product-price">
-                {{price}}
             </div>
             <div class="product-number">
                 <button>+</button>
@@ -46,8 +44,8 @@ export default {
             }
         });
     this.slug= this.$route.params.name;
-    this.price = this.$route.params.price;
-    this.imagePath = this.$route.params.image;
+    // this.price = this.$route.params.price;
+    // this.imagePath = this.$route.params.image;
     },
     
     components: {
