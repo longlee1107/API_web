@@ -7,13 +7,15 @@
         </div>
         <div>
             <div class="NewProd w-full grid grid-cols-1 lg:grid-cols-4">
-                <div class="productCard justify-center items-center w-fit m-8" v-for="item in lastProducts" :key="item.id">
+                <div class="productCard justify-center items-center w-fit m-8" v-for="item in listProducts.lastProducts" :key="item.id">
                     <div class="productImg ">
                         <img class="object-contain h-80 w-64" :src="item.image.full_image_path" alt="">
                     </div>
                     <div class="productInfo">
                         <div class="productName font-bold text-left">
-                            <h3>{{item.name}}</h3>
+                            <router-link @click="_goToDetail()" :to="{name:'detail-product',params:{id:item.id,name:item.name,price:item.price,image:item.image.full_image_path,content:item.content}}">
+                                <h3>{{item.name}}</h3>
+                            </router-link>
                         </div>
                         <div class="productPrice font-bold text-red-500 text-left">
                             <h3>{{item.price}}</h3>
@@ -26,7 +28,7 @@
                             <button>-</button>
                         </div>
                         <div class="addToCart text-right">
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="addToCart(item.id)">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
                                 Add to cart
                             </button>
                         </div>
@@ -38,13 +40,15 @@
             <p class="text-left font-bold">THE MOST VIEWED PRODUCTS</p>
         </div>
         <div class="MostViewedProd w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="productCard justify-center items-center w-fit m-8" v-for="item in mostViewedProducts" :key="item.id">
+            <div class="productCard justify-center items-center w-fit m-8" v-for="item in listProducts.topViewProducts" :key="item.id">
                 <div class="productImg">
                     <img class="object-contain h-80 w-64" :src="item.image.full_image_path" alt="">
                 </div>
                 <div class="productInfo">
                     <div class="productName font-bold text-left">
-                        <h3>{{item.name}}</h3>
+                        <router-link @click="_goToDetail()" :to="{name:'detail-product',params:{id:item.id,name:item.name,price:item.price,image:item.image.full_image_path,content:item.content}}">
+                            <h3>{{item.name}}</h3>
+                        </router-link>
                     </div>
                     <div class="productPrice font-bold text-red-500 text-left">
                         <h3>{{item.price}}</h3>
@@ -57,7 +61,7 @@
                         <button>-</button>
                     </div>
                     <div class="addToCart text-right">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="addToCart(item.id)">
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
                             Add to cart
                         </button>
                     </div>
@@ -68,13 +72,13 @@
             <p class="text-left font-bold">THE BEST SELLER PRODUCTS</p>
         </div>
         <div class="BestSeller w-full grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="productCard justify-center items-center w-fit m-8" v-for="item in bestSeller" :key="item.id">
+            <div class="productCard justify-center items-center w-fit m-8" v-for="item in listProducts.topSoldProducts" :key="item.id">
                 <div class="productImg">
                     <img class="object-contain h-80 w-64" :src="item.image.full_image_path" alt="">
                 </div>
                 <div class="productInfo">
                     <div class="productName flex justify-between font-bold text-left">
-                        <router-link @click="_goToDetail()" :to="{name:'detail-product',params:{id:item.id,name:item.name,price:item.price,image:item.image.full_image_path}}">
+                        <router-link @click="_goToDetail()" :to="{name:'detail-product',params:{id:item.id,name:item.name,price:item.price,image:item.image.full_image_path,content:item.content}}">
                             <h3>{{item.name}}</h3>
                         </router-link>
                     </div>
@@ -89,7 +93,7 @@
                         <button>-</button>
                     </div>
                     <div class="addToCart text-right">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="addToCart(item.id)">
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
                             Add to cart
                         </button>
                     </div>
@@ -97,57 +101,18 @@
             </div>
         </div>
     </div>
-    <footer class="flex md:flex-row flex-col justify-around mt-20 bg-gray-200 py-5">
-        <div>
-            <img src="https://thumbs.dreamstime.com/b/web-183282388.jpg" alt="logo" class="w-12">
-            <p class="font-bold mt-5">Công ty TNHH 1 thành viên Luân</p>
-            <address class="font-bold">Địa chỉ: Hạ Long - Quảng Ninh</address>
-            <p><span class="font-bold">SDT: 0868120192</span></p>
-            <p><span class="font-bold">Fax: 0868120192</span></p>
-        </div>
-
-        <div>
-            <ul class="mt-10 space-y-2">
-                <li>
-                    <a href="">Về chúng tôi</a>
-                </li>
-
-                <li>
-                    <a href="">Chính sách mua hàng</a>
-                </li>
-
-                <li>
-                    <a href="">Chính sách trả hàng</a>
-                </li>
-            </ul>
-        </div>
-
-        <div>
-            <h5 class="mt-10 font-semibold">Mạng xã hội</h5>
-            <div class="flex space-x-5 ">
-                <a href="https://facebook.com">
-                    <i class="bi bi-facebook text-sm"></i>
-                </a>
-                <a href="https://facebook.com">
-                    <i class="bi bi-google text-sm"></i>
-                </a>
-                <a href="https://facebook.com">
-                    <i class="bi bi-instagram text-sm"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
+    <Footer></Footer>
 </div>
 </template>
 
 <script>
 import MenuBar from "../components/MenuBar.vue";
+import Footer from "../components/Footer.vue";
 export default {
     data() {
         return {
-            lastProducts: [],
-            mostViewedProducts: [],
-            bestSeller: [],
+            listProducts: [],
+            addToCart: [],
             url: "http://128.199.211.17/api/v1/home",
             method: "GET",
         };
@@ -161,9 +126,7 @@ export default {
                     },
                 }).then(response => response.json())
                 .then(data => {
-                    this.lastProducts = data.lastProducts;
-                    this.mostViewedProducts = data.topViewProducts;
-                    this.bestSeller = data.topSoldProducts;
+                    this.listProducts = data;
                 }).catch(error => {
                     console.log(error);
                 });
@@ -172,15 +135,64 @@ export default {
             this.$router.go({
                 name: 'detail-product'
             });
-
-        }
+        },
+        _addToCart(item) {
+            // this.addToCart.push({
+            //     id: item.id,
+            //     name: item.name,
+            //     price: item.price,
+            //     image: item.image.full_image_path,
+            //     content: item.content,
+            //     quantity: 1
+            // })
+            let addToCart = localStorage.getItem('addToCart');
+            if (addToCart == null) {
+                localStorage.setItem('addToCart', JSON.stringify([{
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    image: item.image.full_image_path,
+                    content: item.content,
+                    quantity: 1
+                }]));
+            } else {
+                let cart = JSON.parse(localStorage.getItem('addToCart'));
+                let index = -1;
+                for (var i = 0; i < cart.length; i++) {
+                    if (cart[i].id == item.id) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index == -1) {
+                    cart.push({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        image: item.image.full_image_path,
+                        content: item.content,
+                        quantity: 1
+                    });
+                    localStorage.setItem('addToCart', JSON.stringify(cart));
+                } else {
+                    cart[index].quantity += 1;
+                    localStorage.setItem('addToCart', JSON.stringify(cart));
+                }
+            }
+        },
     },
     mounted() {
         this.ApiHome();
+        try {
+            this.addToCart = JSON.parse(localStorage.getItem('addToCart'));
+        } catch (e) {
+            console.log(e);
+            this.addToCart = [];
+        }
     },
     components: {
         MenuBar,
-
+        Footer
     }
 }
 </script>
