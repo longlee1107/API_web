@@ -158,7 +158,7 @@ export default {
             } else {
                 let cart = JSON.parse(localStorage.getItem('addToCart'));
                 let index = -1;
-                for (var i = 0; i < cart.length; i++) {
+                for (let i = 0; i < cart.length; i++) {
                     if (cart[i].id == item.id) {
                         index = i;
                         break;

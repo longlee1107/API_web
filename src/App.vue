@@ -3,14 +3,15 @@
         <router-view>
     <Home></Home>
     </router-view>
+    <!-- <Register></Register> -->
     </div>
 </template>
 
 <script>
+// import Register from "./pages/Register.vue";
 import Home from "./pages/Home.vue";
 export default {
     components: { Home }
-    
 }
 </script>
 
