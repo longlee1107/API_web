@@ -1,5 +1,5 @@
 <template>
-<div class="header px-8 lg:px-0 shadow-2xl shadow-gray-400 border border-gray-200 rounded-xl">
+<div class="header px-8 lg:px-0 shadow-2xl shadow-gray-400 border-gray-200 rounded-xl">
     <div class="flex justify-between items-center py-4 w-full container mx-auto px-2 ">
         <div class="header-left w-2/5 order-2 lg:order-1">
             <div class="logo">
@@ -17,6 +17,13 @@
                     </li>
                     <li class="font-medium"><a href="">BLOG</a></li>
                     <li class="font-medium"><a href="">CONTACT</a></li>
+                    <li class="font-medium">
+                        <div>
+                            <router-link @click="_goToLogin()" :to="{name:'login'}">
+                                <a href="">LOGIN</a>
+                            </router-link>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -44,9 +51,10 @@
             </button>
         </div>
     </div>
+
     <Cart v-show="showModal" @close="closeModalCart()">
         <template v-slot:body>
-            <div>
+            <div class="bg-scroll">
                 <div class="grid grid-rows-1 grid-cols-1 my-2">
                     <div class="grid grid-rows-1 grid-cols-4">
                         <div class="text-center border-solid border-2 border-black-600">
@@ -94,24 +102,92 @@
         </template>
         <template v-slot:footer>
             <div>
-                <span class="underline">Tổng hóa đơn</span>: <span>{{Total}}</span>
+                <span class="mr-3">Total: {{Total}}</span>
+                <button class="bg-red-600 text-white py-2 px-4 rounded" @click="makeOrder()">Thanh toán</button>
             </div>
+
         </template>
     </Cart>
+    <Order v-show="showModalChild" @close="closeModalOrder()">
+        <template v-slot:body>
+            <div class="block lg:flex">
+                <div class="user w-1/2 text-left p-3">
+                    <div class="name">
+                        Họ tên: {{user.full_name}}
+                    </div>
+                    <div class="email">
+                        Email: {{user.email}}
+                    </div>
+                    <div class="phone">
+                        Phone: {{user.phone}}
+                    </div>
+                    <div class="address">
+                        Address: <input v-model="address" type="text" placeholder="Address" class="inline-block border-0 bg-white focus:outline-none focus:bg-gray-300 w-full p-4 mt-1.5 mb-5">
+                    </div>
+                    <div class="note">
+                        Note: <input v-model="note" type="text" placeholder="Note" class="inline-block border-0 bg-white focus:outline-none focus:bg-gray-300 w-full p-4 mt-1.5 mb-5">
+                    </div>
+                </div>
+                <div class="order block w-1/2 lg:border-l-2 lg:border-gray-500 text-left mt-1 p-3" >
+                    <div v-for="item in order" :key="item.id">
+                        <div class="order-name">
+                        Tên sản phẩm: {{item.name}}
+                    </div>
+                    <div class="order-quantity border-b-2 lg:border-gray-500">
+                        Số lượng: {{item.quantity}}
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template v-slot:footer>
+            <div class="items-end">
+                <span class="mr-3">Total: {{total}}</span>
+                <button class="bg-red-600 text-white py-2 px-4 rounded" @click="makeOrder()">Thanh toán</button>
+            </div>
+        </template>
+    </Order>
 </div>
 </template>
 
 <script>
+import Order from '@/pages/Order.vue';
 import Cart from "../pages/Cart.vue";
+import {userOrderService} from '@/services/userOrderService'
 export default {
     data() {
         return {
             showModal: false,
+            showModalChild: false,
             Total: 0,
-            cart: []
+            cart: [],
+            user: {
+                full_name: '',
+                email: '',
+                phone: '', 
+            },
+            order: [],
+            total: 0,
+            note: "",
+            address: ""
         }
     },
     methods: {
+        orderSend() {
+            let data = JSON.parse(localStorage.getItem('addToCart'));
+            if (data == null) {
+                alert('Bạn chưa có sản phẩm nào trong giỏ hàng');
+                return;
+            } else {
+                this.order = data;
+                this.address = '';
+                this.note = '';
+                this.total = this.order.reduce((total, item) => {
+                    return total + item.price * item.quantity;
+                }, 0);
+                localStorage.setItem('order', JSON.stringify([ ...this.order ]));
+            }
+        },
         showModalCart() {
             this.showModal = true;
             let cart = localStorage.getItem('addToCart');
@@ -127,25 +203,50 @@ export default {
         closeModalCart() {
             this.showModal = false;
         },
-        increase(cartIndex) {
-            this.cart[cartIndex].quantity++;
-            this.Total = this.cart.reduce((total, item) => {
-                return total += item.price * item.quantity;
-            }, 0);
-        },
-        decrease(cartIndex) {
-            if (this.cart[cartIndex].quantity > 1) {
-                this.cart[cartIndex].quantity--;
-            } else {
-                this.cart.splice(cartIndex, 1);
+        async makeOrder() {
+            this.showModalChild = true;
+            let token = localStorage.getItem('token');
+            console.log(token)
+            try {
+               const resp = await userOrderService.makeOrder(token);
+                // console.log(resp);
+                this.user.full_name = resp.data.full_name;
+                this.user.email = resp.data.email;
+                this.user.phone = resp.data.phone;
+                
+            } catch (error) {
+                console.log(error);
             }
-            this.Total = this.cart.reduce((total, item) => {
-                return total += item.price * item.quantity;
-            }, 0);
+        },
+        closeModalOrder() {
+            this.showModalChild = false;
+        },
+    },
+    increase(cartIndex) {
+        this.cart[cartIndex].quantity++;
+        this.Total = this.cart.reduce((total, item) => {
+            return total += item.price * item.quantity;
+        }, 0);
+    },
+    decrease(cartIndex) {
+        if (this.cart[cartIndex].quantity > 1) {
+            this.cart[cartIndex].quantity--;
+        } else {
+            this.cart.splice(cartIndex, 1);
         }
+        this.Total = this.cart.reduce((total, item) => {
+            return total += item.price * item.quantity;
+        }, 0);
+    },
+    _goToLogin() {
+        this.$router.push('/login');
+    },
+    mounted() {
+        this.orderSend();
     },
     components: {
-        Cart
+        Cart,
+        Order
     }
 }
 </script>

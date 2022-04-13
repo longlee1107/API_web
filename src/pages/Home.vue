@@ -21,12 +21,7 @@
                             <h3>{{item.price}}</h3>
                         </div>
                     </div>
-                    <div class="flex justify-between">
-                        <div class="number">
-                            <button>+</button>
-                            <input class=" w-8 mr-2 text-center" type="text" :disabled="false" value="1">
-                            <button>-</button>
-                        </div>
+                    <div class="flex justify-end">
                         <div class="addToCart text-right">
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
                                 Add to cart
@@ -54,18 +49,13 @@
                         <h3>{{item.price}}</h3>
                     </div>
                 </div>
-                <div class="flex justify-between">
-                    <div class="number">
-                        <button>+</button>
-                        <input class=" w-8 mr-2 text-center" type="text" :disabled="false" value="1">
-                        <button>-</button>
+                 <div class="flex justify-end">
+                        <div class="addToCart text-right">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
+                                Add to cart
+                            </button>
+                        </div>
                     </div>
-                    <div class="addToCart text-right">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
-                            Add to cart
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="w-full h-11 mt-8">
@@ -86,18 +76,13 @@
                 <div class="productPrice text-left font-bold text-red-500">
                     <h3>{{item.price}}</h3>
                 </div>
-                <div class="flex justify-between">
-                    <div class="number">
-                        <button>+</button>
-                        <input class=" w-8 mr-2 text-center" type="text" :disabled="false">
-                        <button>-</button>
+                 <div class="flex justify-end">
+                        <div class="addToCart text-right">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
+                                Add to cart
+                            </button>
+                        </div>
                     </div>
-                    <div class="addToCart text-right">
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full" @click="_addToCart(item)">
-                            Add to cart
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

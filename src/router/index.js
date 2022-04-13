@@ -14,7 +14,17 @@ export const router = new VueRouter({
             name: 'detail-product',
             component: () =>
                 import ('@/pages/ProductDetail.vue')
-        }
+        }, {
+            path: '/register',
+            name: 'register',
+            component: () =>
+                import ('@/pages/Register.vue')
+        }, {
+            path: '/login',
+            name: 'login',
+            component: () =>
+                import ('@/pages/Login.vue')
+        },
     ],
     mode: "history"
 })

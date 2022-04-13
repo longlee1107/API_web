@@ -1,17 +1,23 @@
 <template>
-    <div id="app">
-        <router-view>
-    <Home></Home>
-    </router-view>
-    <!-- <Register></Register> -->
-    </div>
+<div id="app">
+    <!-- <router-view>
+        <Home></Home>
+    </router-view> -->
+    <OrderDetail>
+
+    </OrderDetail>
+</div>
 </template>
 
 <script>
 // import Register from "./pages/Register.vue";
-import Home from "./pages/Home.vue";
+// import Home from "./pages/Home.vue";
+import OrderDetail from './pages/orderDetail.vue';
 export default {
-    components: { Home }
+    components: {
+        // Home,
+        OrderDetail
+    }
 }
 </script>
 

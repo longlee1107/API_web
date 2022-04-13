@@ -1,7 +1,7 @@
 <template>
 <transition name="modal-fade">
     <div class="modal-backdrop fixed inset-0 bg-neutral-500 flex justify-center items-center">
-        <div class="modal flex flex-col bg-white shadow-lg w-3/4 h-5/6 overflow-x-auto" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+        <div class="modal flex flex-col bg-white shadow-lg w-full h-full overflow-x-auto" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
             <header class="modal-header p-4 flex" id="modalTitle">
                 <slot name="header">
                     <b>Cart</b>
